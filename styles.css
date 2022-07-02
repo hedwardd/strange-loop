@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#start {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#video {
+  /* border: 1px solid #999; */
+  /* width: 101vw; */
+  width: 100%;
+  /* max-width: 860px; */
+  /* height: 101vh; */
+  height: 100%;
+
+  transform: rotate(2deg);
+}
+
+.hide {
+  display: none;
+}
+
+.custom-cursor {
+  cursor: url(cursor.png), default!important;
+}
