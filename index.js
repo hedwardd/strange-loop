@@ -13,7 +13,7 @@ const MIN_VIDEO_SIZE = 100;
 const VIDEO_SIZE_INCREMENT = 0;
 
 // ROTATION
-const INITIAL_ROTATION = 45;
+const INITIAL_ROTATION = 0;
 const ROTATE_INCREMENT = 0;
 const MAX_ROTATION = 360;
 const MIN_ROTATION = -360;
@@ -33,12 +33,24 @@ const videoElem = document.getElementById("video");
 const logElem = document.getElementById("log");
 const buttons = document.getElementsByClassName("buttons").item(0);
 const startElem = document.getElementById("start");
+const rotationInput = document.getElementById("rotation");
+const scaleInput = document.getElementById("scale");
 
 
 // Set event listeners for the start and stop buttons
 startElem.addEventListener("click", function(evt) {
   startCapture();
 }, false);
+
+rotationInput.addEventListener("change", function(evt) {
+  currRotation = Number(evt?.target?.value);
+  console.log('rotation: ', currRotation);
+});
+
+scaleInput.addEventListener("change", function(evt) {
+  currSize = Number(evt?.target?.value);
+  console.log('currSize', currSize);
+});
 
 document.addEventListener("keydown", function(evt) {
   if (evt.key === " ") {
@@ -100,12 +112,12 @@ function rotateVideo() {
   videoElem.style.transform = `rotate(${currRotation}deg)`;
 
   // Reverse the rotation direction when the max or min size is reached
-  // if (
-  //   currRotation >= MAX_ROTATION ||
-  //   currRotation <= MIN_ROTATION
-  // ) {
-  //   currRotationIncrement = -currRotationIncrement;
-  // }
+  if (
+    currRotation >= MAX_ROTATION ||
+    currRotation <= MIN_ROTATION
+  ) {
+    currRotationIncrement = -currRotationIncrement;
+  }
   // Reset the rotation when the max is reached
   if (Math.abs(currRotation) === 360) {
     currRotation = 0;

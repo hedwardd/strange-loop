@@ -1,23 +1,36 @@
 <body>
-  <!-- <p>
-    This example shows you the contents of the selected part of your display.
-    Click the Start Capture button to begin.
-  </p> -->
 
   <p class="buttons">
     <button id="start">Start</button>
-    <!-- &nbsp; -->
-    <!-- <button id="stop">
-      Stop Capture
-    </button> -->
   </p>
 
-  <video id="video" class="hide" autoplay />
-  <!-- <br /> -->
+  <video id="video" class="hide" autoplay></video>
 
-  <!-- <strong>Log:</strong>
-  <br />
-  <pre id="log"></pre> -->
+  <footer class="footer">
+    <div class="input-wrapper">
+      <input
+        id="rotation"
+        value="0"
+        type="number"
+        class="footer__input"
+      />
+      <label>
+        Rotation
+      </label>
+    </div>
+
+    <div class="input-wrapper">
+      <input
+        id="scale"
+        value="100"
+        type="number"
+        class="footer__input"
+      />
+      <label>
+        Scale
+      </label>
+    </div>
+  </footer>
 </body>
 
 <link rel="stylesheet" href="styles.css"></link>
