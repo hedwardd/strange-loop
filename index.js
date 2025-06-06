@@ -1,6 +1,6 @@
 const displayMediaOptions = {
-  video: { cursor: "always" },
-  audio: false
+  video: { cursor: 'always' },
+  audio: false,
 };
 
 // RATE OF CHANGE
@@ -18,7 +18,6 @@ const ROTATE_INCREMENT = 0;
 const MAX_ROTATION = 360;
 const MIN_ROTATION = -360;
 
-
 let intervalRef;
 
 let currSize = INITIAL_VIDEO_SIZE;
@@ -27,69 +26,99 @@ let currSizeIncrement = VIDEO_SIZE_INCREMENT;
 let currRotation = INITIAL_ROTATION;
 let currRotationIncrement = ROTATE_INCREMENT;
 
-
-
-const videoElem = document.getElementById("video");
-const logElem = document.getElementById("log");
-const buttons = document.getElementsByClassName("buttons").item(0);
-const startElem = document.getElementById("start");
-const rotationInput = document.getElementById("rotation");
-const scaleInput = document.getElementById("scale");
-
+const videoElem = document.getElementById('video');
+const logElem = document.getElementById('log');
+const buttons = document.getElementsByClassName('buttons').item(0);
+const startElem = document.getElementById('start');
+const rotationInput = document.getElementById('rotation');
+const scaleInput = document.getElementById('scale');
 
 // Set event listeners for the start and stop buttons
-startElem.addEventListener("click", function(evt) {
-  startCapture();
-}, false);
+startElem.addEventListener(
+  'click',
+  function (evt) {
+    startCapture();
+  },
+  false
+);
 
-rotationInput.addEventListener("change", function(evt) {
+rotationInput.addEventListener('change', function (evt) {
   currRotation = Number(evt?.target?.value);
   console.log('rotation: ', currRotation);
 });
 
-scaleInput.addEventListener("change", function(evt) {
+scaleInput.addEventListener('change', function (evt) {
   currSize = Number(evt?.target?.value);
   console.log('currSize', currSize);
 });
 
-document.addEventListener("keydown", function(evt) {
-  if (evt.key === " ") {
-    stopCapture();
-  }
-  if (evt.key === "Enter") {
-    startCapture();
-  }
-}
-, false);
+document.addEventListener(
+  'keydown',
+  function (evt) {
+    if (evt.key === ' ') {
+      stopCapture();
+    }
+    if (evt.key === 'Enter') {
+      startCapture();
+    }
+  },
+  false
+);
 
+document.addEventListener(
+  'keydown',
+  function (evt) {
+    if (evt.key === 'ArrowUp') {
+      currSize += 1;
+      videoElem.style.height = `${currSize}%`;
+      videoElem.style.width = `${currSize}%`;
+    }
+    if (evt.key === 'ArrowDown') {
+      currSize -= 1;
+      videoElem.style.height = `${currSize}%`;
+      videoElem.style.width = `${currSize}%`;
+    }
+    if (evt.key === 'ArrowLeft') {
+      currRotation -= 1;
+      videoElem.style.transform = `rotate(${currRotation}deg)`;
+    }
+    if (evt.key === 'ArrowRight') {
+      currRotation += 1;
+      videoElem.style.transform = `rotate(${currRotation}deg)`;
+    }
+  },
+  false
+);
 
 async function startCapture() {
-  buttons.classList.add("hide");
-  videoElem.classList.remove("hide");
-  document.body.classList.add("custom-cursor");
-  
+  buttons.classList.add('hide');
+  videoElem.classList.remove('hide');
+  document.body.classList.add('custom-cursor');
+
   try {
-    videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+    videoElem.srcObject = await navigator.mediaDevices.getDisplayMedia(
+      displayMediaOptions
+    );
     intervalRef = setInterval(intervalEffects, EFFECT_DELAY);
     // dumpOptionsInfo();
-  } catch(err) {
-    console.error("Error: " + err);
-    buttons.classList.remove("hide");
-    videoElem.classList.add("hide");
-    document.body.classList.remove("custom-cursor");
+  } catch (err) {
+    console.error('Error: ' + err);
+    buttons.classList.remove('hide');
+    videoElem.classList.add('hide');
+    document.body.classList.remove('custom-cursor');
   }
 }
 
 function stopCapture(evt) {
   let tracks = videoElem.srcObject?.getTracks();
-  tracks.forEach(track => track?.stop());
+  tracks.forEach((track) => track?.stop());
 
   videoElem.srcObject = null;
 
-  buttons.classList.remove("hide");
-  videoElem.classList.add("hide");
-  document.body.classList.remove("custom-cursor");
-  
+  buttons.classList.remove('hide');
+  videoElem.classList.add('hide');
+  document.body.classList.remove('custom-cursor');
+
   clearInterval(intervalRef);
 }
 
@@ -99,10 +128,7 @@ function resizeVideo() {
   videoElem.style.width = `${currSize}%`;
 
   // Reverse the change direction when the max or min size is reached
-  if (
-    currSize >= MAX_VIDEO_SIZE ||
-    currSize <= MIN_VIDEO_SIZE
-  ) {
+  if (currSize >= MAX_VIDEO_SIZE || currSize <= MIN_VIDEO_SIZE) {
     currSizeIncrement = -currSizeIncrement;
   }
 }
@@ -112,10 +138,7 @@ function rotateVideo() {
   videoElem.style.transform = `rotate(${currRotation}deg)`;
 
   // Reverse the rotation direction when the max or min size is reached
-  if (
-    currRotation >= MAX_ROTATION ||
-    currRotation <= MIN_ROTATION
-  ) {
+  if (currRotation >= MAX_ROTATION || currRotation <= MIN_ROTATION) {
     currRotationIncrement = -currRotationIncrement;
   }
   // Reset the rotation when the max is reached
@@ -144,5 +167,3 @@ function intervalEffects() {
   rotateVideo();
   scrollToCenter();
 }
-
-console.log("hello world");
